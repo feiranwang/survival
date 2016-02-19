@@ -25,14 +25,14 @@ with open(sys.argv[1]) as f:
     feature_matrix.append(features)
     pid_list.append(pids[i])
     i += 1
-    # maxf = max(features)
-    # features = [x / maxf for x in features]
 
 feature_matrix = np.array(feature_matrix)
-row_max = np.max(feature_matrix, axis=0)
-row_max[row_max == 0] = 1
-feature_matrix /= row_max
-  
+col_max = np.max(feature_matrix, axis=0)
+col_max[col_max == 0] = 1
+feature_matrix /= col_max
+col_mean = np.mean(feature_matrix, axis=0)
+feature_matrix -= col_mean
+
 for i in xrange(feature_matrix.shape[0]):
   for j in xrange(feature_matrix.shape[1]):
     print '\t'.join([pid_list[i], str(j), str(feature_matrix[i,j]), '\N'])
